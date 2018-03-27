@@ -1,0 +1,2 @@
+# ZJU_AI_MiniAlphaGo
+ZJU_AI_MiniAlphaGo
