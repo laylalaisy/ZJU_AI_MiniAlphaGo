@@ -11,4 +11,4 @@ class Controller():
         pass
 
     def notify(self):
-        self.canvas.update(self.board)
+        self.canvas.repaint(self.board)

@@ -21,7 +21,7 @@ def start_game(root, player):
     screen.delete(ALL)
     screen.bind("<Button-1>", handlerAdaptor(on_canvas_click, controller=controller))
     screen.pack()
-    screen.update(bo)
+    screen.repaint(bo)
     root.mainloop()
 
 
