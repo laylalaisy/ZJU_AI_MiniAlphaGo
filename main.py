@@ -5,6 +5,8 @@ from View.game import *
 from Model.board import Board
 from View.boardCanvas import BoardCanvas
 from Controller.controller import Controller
+from utils.config import *
+from utils.valid import *
 
 
 def handler_adaptor(fun, **kwds):
@@ -16,12 +18,22 @@ def start_game(root, player):
     root.destroy()
     root = Tk()
     bo = Board()
-    screen = BoardCanvas(root, width=500, height=600, background="#856c23", highlightthickness=0)
+    global state
+    if player is 0:
+        state = State.player
+        get_valid_list(bo.matrix, bo.valid_matrix, white)
+    else:
+        state = State.AI
+        bo.valid_matrix.clear()
+    screen = BoardCanvas(root, width=screen_width, height=screen_height, background="#856c23", highlightthickness=0)
     controller = Controller(bo, screen)
     screen.delete(ALL)
     screen.bind("<Button-1>", handler_adaptor(on_canvas_click, controller=controller))
     screen.pack()
     screen.repaint(bo)
+
+
+    print(state)
     root.focus_set()
     root.mainloop()
 

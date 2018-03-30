@@ -4,6 +4,7 @@ from utils.config import *
 class Board:
     def __init__(self):
         self.matrix = []
+        self.valid_matrix = []
         for i in range(row):
             self.matrix.append([])
             for j in range(col):
