@@ -4,6 +4,11 @@ from tkinter import *
 class BoardCanvas(Canvas):
     def __init__(self, master=None, cnf={}, **kw):
         super().__init__(master, cnf, **kw)
+        # let black be 0, white be 1
+        # self.black=0
+        # self.white=1
+        self.black = 0
+        self.white = 1
 
     def repaint(self, model):
         # print(model.matrix)
@@ -20,7 +25,15 @@ class BoardCanvas(Canvas):
             # Vertical line
             self.create_line(line_shift, 50, line_shift, 450, fill="#111")
 
-        # draw circles
-
+            # draw circles
+            self.circle(75, 75, 25, self.black)
 
         self.update()
+
+    def circle(self, x, y, r, color):
+        if color == self.black:
+            color = 'black'
+        else:
+            color = 'white'
+        id = self.create_oval(x - r, y - r, x + r, y + r)
+        return id
