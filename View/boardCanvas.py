@@ -8,7 +8,7 @@ class BoardCanvas(Canvas):
     def repaint(self, model):
         # print(model.matrix)
         # pass
-        self.create_rectangle(50, 50, 450, 450, fill="yellow", outline="#111")
+        self.create_rectangle(50, 50, 450, 450, fill="#e3d94a", outline="#111")
 
         # Drawing the intermediate lines
         for i in range(7):
@@ -19,5 +19,8 @@ class BoardCanvas(Canvas):
 
             # Vertical line
             self.create_line(line_shift, 50, line_shift, 450, fill="#111")
+
+        # draw circles
+
 
         self.update()

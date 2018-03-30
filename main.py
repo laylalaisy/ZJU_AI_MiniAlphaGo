@@ -16,7 +16,7 @@ def start_game(root, player):
     root.destroy()
     root = Tk()
     bo = Board()
-    screen = BoardCanvas(root, width=500, height=600, background="#222", highlightthickness=0)
+    screen = BoardCanvas(root, width=500, height=600, background="#856c23", highlightthickness=0)
     controller = Controller(bo, screen)
     screen.delete(ALL)
     screen.bind("<Button-1>", handlerAdaptor(on_canvas_click, controller=controller))

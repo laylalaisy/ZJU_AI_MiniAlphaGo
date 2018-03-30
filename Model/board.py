@@ -15,4 +15,4 @@ class Board:
         self.matrix[4][4] = self.black
         self.matrix[3][4] = self.white
         self.matrix[4][3] = self.white
-        print(self.matrix)
+        # print(self.matrix)
