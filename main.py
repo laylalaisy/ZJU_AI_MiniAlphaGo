@@ -22,6 +22,7 @@ def start_game(root, player):
     screen.bind("<Button-1>", handler_adaptor(on_canvas_click, controller=controller))
     screen.pack()
     screen.repaint(bo)
+    root.focus_set()
     root.mainloop()
 
 

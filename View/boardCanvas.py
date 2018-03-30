@@ -1,39 +1,40 @@
 from tkinter import *
+from utils.config import *
 
 
 class BoardCanvas(Canvas):
     def __init__(self, master=None, cnf={}, **kw):
         super().__init__(master, cnf, **kw)
-        # let black be 0, white be 1
-        # self.black=0
-        # self.white=1
-        self.black = 0
-        self.white = 1
 
     def repaint(self, model):
         # print(model.matrix)
         # pass
-        self.create_rectangle(50, 50, 450, 450, fill="#e3d94a", outline="#111")
+        self.create_rectangle(board_left_up_x, board_left_up_y, board_right_down_x,
+                              board_right_down_y, fill=board_bg_color,
+                              outline=board_outline_color)
 
         # Drawing the intermediate lines
-        for i in range(7):
-            line_shift = 50 + 50 * (i + 1)
+        for i in range(row - 1):
+            line_shift = board_left_up_x + board_box_width * (i + 1)
 
             # Horizontal line
-            self.create_line(50, line_shift, 450, line_shift, fill="#111")
+            self.create_line(board_left_up_x, line_shift, board_right_down_x, line_shift, fill=line_color)
 
             # Vertical line
-            self.create_line(line_shift, 50, line_shift, 450, fill="#111")
+            self.create_line(line_shift, board_left_up_y, line_shift, board_right_down_y, fill=line_color)
 
             # draw circles
-            self.circle(75, 75, 25, self.black)
-
+            # print(model.matrix)
+            for i in range(row):
+                for j in range(col):
+                    if model.matrix[i][j] is not None:
+                        self.circle(left_up_chess_x + board_box_width * i, left_up_chess_y + board_box_height * j,
+                                    chess_radius, model.matrix[i][j])
         self.update()
 
     def circle(self, x, y, r, color):
-        if color == self.black:
+        if color == black:
             color = 'black'
         else:
             color = 'white'
-        id = self.create_oval(x - r, y - r, x + r, y + r)
-        return id
+        self.create_oval(x - r, y - r, x + r, y + r, fill=color)
