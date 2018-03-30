@@ -6,5 +6,6 @@ class BoardCanvas(Canvas):
         super().__init__(master, cnf, **kw)
 
     def update(self, model):
+
         print(model.matrix)
         pass
