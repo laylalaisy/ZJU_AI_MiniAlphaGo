@@ -17,7 +17,6 @@ class Controller:
     def on_click(self, event):
         # print(self.state)
         # 现在不是该玩家下棋的状态,不处理点击事件
-        # TODO: 一方必须跳过这一步时出现bug,未解决
         if globals.state == State.player:
             self.player_play(event)
             self.AI_play()
@@ -61,6 +60,7 @@ class Controller:
         if len(valid_list) != 0:
             # (x, y) = random.sample(valid_list, 1)[0]
             (x, y) = valid_list[0]
+            # TODO:AI该怎么下棋呢？
             self.board.matrix[x][y] = globals.AI_color
             self.eat(x, y)
         else:
@@ -70,11 +70,11 @@ class Controller:
         # globals.state = State.player
         self.board.valid_matrix = get_valid_list(self.board.matrix, globals.player_color)
         self.notify()
-        if len(self.board.valid_matrix)==0:
+        if len(self.board.valid_matrix) == 0:
             print("player pass!")
             self.AI_play()
         else:
-            globals.state=State.player
+            globals.state = State.player
 
         pass
 
@@ -148,7 +148,7 @@ class Controller:
 
     def finish_game(self):
         winner = self.get_winner()
-        tkinter.messagebox.showinfo("游戏结束", winner+"赢了")
+        tkinter.messagebox.showinfo("游戏结束", winner + "赢了")
         globals.state = State.finished
 
     def get_winner(self):
