@@ -21,7 +21,7 @@ def start_game(root, player):
     global state
     if player is 0:
         state = State.player
-        get_valid_list(bo.matrix, bo.valid_matrix, white)
+        bo.valid_matrix = get_valid_list(bo.matrix, white)
     else:
         state = State.AI
         bo.valid_matrix.clear()
@@ -31,7 +31,6 @@ def start_game(root, player):
     screen.bind("<Button-1>", handler_adaptor(on_canvas_click, controller=controller))
     screen.pack()
     screen.repaint(bo)
-
 
     print(state)
     root.focus_set()
