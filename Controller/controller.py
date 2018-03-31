@@ -17,6 +17,7 @@ class Controller:
     def on_click(self, event):
         # print(self.state)
         # 现在不是该玩家下棋的状态,不处理点击事件
+        # TODO: 一方必须跳过这一步时出现bug,未解决
         if globals.state == State.player:
             self.player_play(event)
             self.AI_play()
