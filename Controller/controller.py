@@ -1,9 +1,9 @@
 import tkinter.messagebox
-from tkinter import *
+
+import globals
+from Controller.AI import AI
 from state import State
 from utils.valid import *
-import globals
-import random
 
 
 class Controller:
@@ -56,11 +56,10 @@ class Controller:
     def AI_play(self):
         if globals.state != State.AI:
             return
+        self.board.AI_timer.start()
         valid_list = get_valid_list(self.board.matrix, globals.AI_color)
         if len(valid_list) != 0:
-            # (x, y) = random.sample(valid_list, 1)[0]
-            (x, y) = valid_list[0]
-            # TODO:AI该怎么下棋呢？
+            (x, y) = AI.play(self.board.matrix, valid_list)
             self.board.matrix[x][y] = globals.AI_color
             self.eat(x, y)
         else:
@@ -75,7 +74,7 @@ class Controller:
             self.AI_play()
         else:
             globals.state = State.player
-
+            self.board.player_timer.start()
         pass
 
     def eat(self, x, y):

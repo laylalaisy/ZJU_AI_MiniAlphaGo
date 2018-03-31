@@ -18,3 +18,4 @@ board_bg_color = "#e3d94a"
 board_outline_color = "#111"
 screen_width = 500
 screen_height = 600
+time_limit = 60

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import globals
 
 
 def on_canvas_click(event, controller):
