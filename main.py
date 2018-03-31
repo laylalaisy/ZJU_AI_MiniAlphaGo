@@ -5,6 +5,8 @@ from View.game import *
 from Model.board import Board
 from View.boardCanvas import BoardCanvas
 from Controller.controller import Controller
+from state import State
+import globals
 from utils.config import *
 from utils.valid import *
 
@@ -18,21 +20,23 @@ def start_game(root, player):
     root.destroy()
     root = Tk()
     bo = Board()
-    global state
-    if player is 0:
-        state = State.player
-        bo.valid_matrix = get_valid_list(bo.matrix, white)
-    else:
-        state = State.AI
-        bo.valid_matrix.clear()
     screen = BoardCanvas(root, width=screen_width, height=screen_height, background="#856c23", highlightthickness=0)
-    controller = Controller(bo, screen)
+    controller = Controller(bo, screen, globals.state)
+    if player is 0:
+        globals.state = State.player
+        bo.valid_matrix = get_valid_list(bo.matrix, black)
+    else:
+        globals.state = State.AI
+        globals.player_color = white
+        globals.AI_color = black
+        bo.valid_matrix.clear()
+        controller.AI_play()
     screen.delete(ALL)
     screen.bind("<Button-1>", handler_adaptor(on_canvas_click, controller=controller))
     screen.pack()
     screen.repaint(bo)
 
-    print(state)
+    # print(state)
     root.focus_set()
     root.mainloop()
 
