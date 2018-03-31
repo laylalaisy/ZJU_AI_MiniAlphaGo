@@ -49,6 +49,7 @@ class Controller:
             # modify self.board according to x and y
             self.notify()
         else:
+            print("valid_list is empty! player pass")
             if not self.board.has_empty_box():
                 self.finish_game()
         globals.state = State.AI
@@ -58,15 +59,23 @@ class Controller:
             return
         valid_list = get_valid_list(self.board.matrix, globals.AI_color)
         if len(valid_list) != 0:
-            (x, y) = random.sample(valid_list, 1)[0]
+            # (x, y) = random.sample(valid_list, 1)[0]
+            (x, y) = valid_list[0]
             self.board.matrix[x][y] = globals.AI_color
             self.eat(x, y)
         else:
+            print("valid_list is empty! AI pass")
             if not self.board.has_empty_box():
                 self.finish_game()
-        globals.state = State.player
+        # globals.state = State.player
         self.board.valid_matrix = get_valid_list(self.board.matrix, globals.player_color)
         self.notify()
+        if len(self.board.valid_matrix)==0:
+            print("player pass!")
+            self.AI_play()
+        else:
+            globals.state=State.player
+
         pass
 
     def eat(self, x, y):
