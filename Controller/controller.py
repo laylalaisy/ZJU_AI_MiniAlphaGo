@@ -1,3 +1,5 @@
+import tkinter.messagebox
+from tkinter import *
 from state import State
 from utils.valid import *
 import globals
@@ -33,24 +35,34 @@ class Controller:
     def player_play(self, event):
         x, y = self.get_position(event)
         valid_list = get_valid_list(self.board.matrix, globals.player_color)
-        # 点的位置不在有效列表里,即点的位置不能下棋
-        if (x, y) not in valid_list:
-            return
-        # 玩家放子
-        self.board.matrix[x][y] = globals.player_color
-        # 删除提示
-        self.board.valid_matrix = []
-        # 吃掉对方的子
-        self.eat(x, y)
-        # modify self.board according to x and y
-        self.notify()
+        if len(valid_list) != 0:
+            # 点的位置不在有效列表里,即点的位置不能下棋
+            if (x, y) not in valid_list:
+                return
+            # 玩家放子
+            self.board.matrix[x][y] = globals.player_color
+            # 删除提示
+            self.board.valid_matrix = []
+            # 吃掉对方的子
+            self.eat(x, y)
+            # modify self.board according to x and y
+            self.notify()
+        else:
+            if not self.board.has_empty_box():
+                self.finish_game()
         globals.state = State.AI
 
     def AI_play(self):
+        if globals.state != State.AI:
+            return
         valid_list = get_valid_list(self.board.matrix, globals.AI_color)
-        (x, y) = random.sample(valid_list, 1)[0]
-        self.board.matrix[x][y] = globals.AI_color
-        self.eat(x, y)
+        if len(valid_list) != 0:
+            (x, y) = random.sample(valid_list, 1)[0]
+            self.board.matrix[x][y] = globals.AI_color
+            self.eat(x, y)
+        else:
+            if not self.board.has_empty_box():
+                self.finish_game()
         globals.state = State.player
         self.board.valid_matrix = get_valid_list(self.board.matrix, globals.player_color)
         self.notify()
@@ -122,5 +134,23 @@ class Controller:
                         self.board.matrix[x - j][y - j] = color
                 if self.board.matrix[x - i][y - i] is None:
                     break
-
         pass
+
+    def finish_game(self):
+        winner = self.get_winner()
+        tkinter.messagebox.showinfo("游戏结束", winner+"赢了")
+        globals.state = State.finished
+
+    def get_winner(self):
+        player_cnt = 0
+        AI_cnt = 0
+        for i in range(row):
+            for j in range(col):
+                if self.board.matrix[i][j] == globals.player_color:
+                    player_cnt += 1
+                else:
+                    AI_cnt += 1
+        if player_cnt > AI_cnt:
+            return 'player'
+        else:
+            return 'AI'

@@ -35,6 +35,7 @@ class BoardCanvas(Canvas):
             # print(point)
             self.circle(left_up_chess_x + board_box_width * point[0], left_up_chess_y + board_box_height * point[1],
                         prompt_radius, prompt_color)
+
         self.update()
 
     def circle(self, x, y, r, color):

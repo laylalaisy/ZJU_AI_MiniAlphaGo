@@ -36,7 +36,6 @@ def start_game(root, player):
     screen.pack()
     screen.repaint(bo)
 
-    # print(state)
     root.focus_set()
     root.mainloop()
 

@@ -5,6 +5,7 @@ class Board:
     def __init__(self):
         self.matrix = []
         self.valid_matrix = []
+
         for i in range(row):
             self.matrix.append([])
             for j in range(col):
@@ -14,3 +15,10 @@ class Board:
         self.matrix[3][4] = white
         self.matrix[4][3] = white
         # print(self.matrix)
+
+    def has_empty_box(self):
+        for i in range(row):
+            for j in range(col):
+                if self.matrix[i][j] is None:
+                    return True
+        return False
