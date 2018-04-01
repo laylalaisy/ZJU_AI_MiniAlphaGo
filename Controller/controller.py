@@ -3,6 +3,7 @@ import tkinter.messagebox
 import globals
 from Controller.AI import AI
 from state import State
+from utils.util import move
 from utils.valid import *
 
 
@@ -39,7 +40,8 @@ class Controller:
             # 点的位置不在有效列表里,即点的位置不能下棋
             if (x, y) not in valid_list:
                 return
-            self.move(globals.player_color, x, y)
+            # self.move(globals.player_color, x, y)
+            move(self.board.matrix, x, y, globals.player_color)
             # 删除提示
             self.board.valid_matrix = []
             # modify self.board according to x and y
@@ -57,7 +59,7 @@ class Controller:
         valid_list = get_valid_list(self.board.matrix, globals.AI_color)
         if len(valid_list) != 0:
             (x, y) = AI.play(self.board.matrix, valid_list)
-            self.move(globals.AI_color, x, y)
+            move(self.board.matrix, x, y, globals.AI_color)
         else:
             print("valid_list is empty! AI pass")
             if not self.board.has_empty_box():
@@ -71,79 +73,6 @@ class Controller:
         else:
             globals.state = State.player
             # self.board.player_timer.start()
-        pass
-
-    def move(self, player, x, y):
-        self.board.matrix[x][y] = player
-        # 吃掉对方的子
-        self.eat(x, y)
-
-    def eat(self, x, y):
-        color = self.board.matrix[x][y]
-        # right
-        if x < col - 2 and self.board.matrix[x + 1][y] == 1 - color:
-            for i in range(x + 2, col):
-                if self.board.matrix[i][y] == color:
-                    for j in range(x, i):
-                        self.board.matrix[j][y] = color
-                if self.board.matrix[i][y] is None:
-                    break
-        # left direct
-        if x > 1 and self.board.matrix[x - 1][y] == 1 - color:
-            for i in range(x - 2, -1, -1):
-                if self.board.matrix[i][y] == color:
-                    for j in range(i, x):
-                        self.board.matrix[j][y] = color
-                if self.board.matrix[i][y] is None:
-                    break
-        # down direct
-        if y < 6 and self.board.matrix[x][y + 1] == 1 - color:
-            for i in range(y + 2, 8):
-                if self.board.matrix[x][i] == color:
-                    for j in range(y, i):
-                        self.board.matrix[x][j] = color
-                if self.board.matrix[x][i] is None:
-                    break
-        # up direct
-        if y > 1 and self.board.matrix[x][y - 1] == 1 - color:
-            for i in range(y - 2, -1, -1):
-                if self.board.matrix[x][i] == color:
-                    for j in range(i, y):
-                        self.board.matrix[x][j] = color
-                if self.board.matrix[x][i] is None:
-                    break
-        # down right
-        if x < col - 2 and y < row - 2 and self.board.matrix[x + 1][y + 1] == 1 - color:
-            for i in range(2, min(col - x, row - y)):
-                if self.board.matrix[x + i][y + i] == color:
-                    for j in range(i):
-                        self.board.matrix[x + j][y + j] = color
-                if self.board.matrix[x + i][y + i] is None:
-                    break
-        # down left
-        if x > 1 and y < row - 2 and self.board.matrix[x - 1][y + 1] == 1 - color:
-            for i in range(2, min(x + 1, row - y)):
-                if self.board.matrix[x - i][y + i] == color:
-                    for j in range(i):
-                        self.board.matrix[x - j][y + j] = color
-                if self.board.matrix[x - i][y + i] is None:
-                    break
-        # up right
-        if x < col - 2 and y > 1 and self.board.matrix[x + 1][y - 1] == 1 - color:
-            for i in range(2, min(col - x, y + 1)):
-                if self.board.matrix[x + i][y - i] == color:
-                    for j in range(i):
-                        self.board.matrix[x + j][y - j] = color
-                if self.board.matrix[x + i][y - i] is None:
-                    break
-        # up left
-        if x > 1 and y > 1 and self.board.matrix[x - 1][y - 1] == 1 - color:
-            for i in range(2, min(x + 1, y + 1)):
-                if self.board.matrix[x - i][y - i] == color:
-                    for j in range(i):
-                        self.board.matrix[x - j][y - j] = color
-                if self.board.matrix[x - i][y - i] is None:
-                    break
         pass
 
     def finish_game(self):
