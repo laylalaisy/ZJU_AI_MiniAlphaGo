@@ -1,6 +1,7 @@
 from Controller.node import Node
 
 
+# TODO: complete this class!
 class MCSearchTree:
     root: Node
 
@@ -9,6 +10,7 @@ class MCSearchTree:
         self.depth = 0
 
     def uct_search(self):
+        # 现在的方法是简单的取第一个能放子的地方
         return self.root.valid_list[0]
         pass
 
