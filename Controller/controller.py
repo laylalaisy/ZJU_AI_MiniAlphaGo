@@ -39,12 +39,9 @@ class Controller:
             # 点的位置不在有效列表里,即点的位置不能下棋
             if (x, y) not in valid_list:
                 return
-            # 玩家放子
-            self.board.matrix[x][y] = globals.player_color
+            self.move(globals.player_color, x, y)
             # 删除提示
             self.board.valid_matrix = []
-            # 吃掉对方的子
-            self.eat(x, y)
             # modify self.board according to x and y
             self.notify()
         else:
@@ -56,12 +53,11 @@ class Controller:
     def AI_play(self):
         if globals.state != State.AI:
             return
-        self.board.AI_timer.start()
+        # self.board.AI_timer.start()
         valid_list = get_valid_list(self.board.matrix, globals.AI_color)
         if len(valid_list) != 0:
             (x, y) = AI.play(self.board.matrix, valid_list)
-            self.board.matrix[x][y] = globals.AI_color
-            self.eat(x, y)
+            self.move(globals.AI_color, x, y)
         else:
             print("valid_list is empty! AI pass")
             if not self.board.has_empty_box():
@@ -74,8 +70,13 @@ class Controller:
             self.AI_play()
         else:
             globals.state = State.player
-            self.board.player_timer.start()
+            # self.board.player_timer.start()
         pass
+
+    def move(self, player, x, y):
+        self.board.matrix[x][y] = player
+        # 吃掉对方的子
+        self.eat(x, y)
 
     def eat(self, x, y):
         color = self.board.matrix[x][y]

@@ -25,7 +25,7 @@ def start_game(root, player):
     if player is 0:
         globals.state = State.player
         bo.valid_matrix = get_valid_list(bo.matrix, black)
-        bo.player_timer.start()
+        # bo.player_timer.start()
     else:
         globals.state = State.AI
         globals.player_color = white
