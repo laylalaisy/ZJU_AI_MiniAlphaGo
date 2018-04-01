@@ -1,7 +1,8 @@
 import tkinter.messagebox
 
 import globals
-from Controller.AI import AI
+from Controller import mcts
+from Controller.node import Node
 from state import State
 from utils.util import move
 from utils.valid import *
@@ -41,7 +42,7 @@ class Controller:
             if (x, y) not in valid_list:
                 return
             # self.move(globals.player_color, x, y)
-            move(self.board.matrix, x, y, globals.player_color)
+            move(self.board, x, y, globals.player_color)
             # 删除提示
             self.board.valid_matrix = []
             # modify self.board according to x and y
@@ -58,8 +59,8 @@ class Controller:
         # self.board.AI_timer.start()
         valid_list = get_valid_list(self.board.matrix, globals.AI_color)
         if len(valid_list) != 0:
-            (x, y) = AI.play(self.board.matrix, valid_list)
-            move(self.board.matrix, x, y, globals.AI_color)
+            (x, y) = mcts.MCSearchTree(Node(self.board, globals.AI_color)).uct_search()
+            move(self.board, x, y, globals.AI_color)
         else:
             print("valid_list is empty! AI pass")
             if not self.board.has_empty_box():

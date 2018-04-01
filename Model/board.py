@@ -3,6 +3,7 @@ from utils.config import *
 
 class Board:
     def __init__(self):
+        self.chess_cnt = 4
         self.matrix = []
         self.valid_matrix = []
         for i in range(row):
@@ -21,3 +22,4 @@ class Board:
                 if self.matrix[i][j] is None:
                     return True
         return False
+

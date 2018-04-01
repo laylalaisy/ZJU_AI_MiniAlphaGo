@@ -2,14 +2,16 @@ from utils.config import col, row
 from copy import deepcopy
 
 
-def move(matrix, x, y, player, copy=False):
+def move(board, x, y, player, copy=False):
     if copy:
-        m = deepcopy(matrix)
+        m = deepcopy(board)
     else:
-        m = matrix
-    m[x][y] = player
+        m = board
+    m.matrix[x][y] = player
+    m.chess_cnt = m.chess_cnt + 1
     # 吃掉对方的子
-    eat(m, x, y)
+    eat(m.matrix, x, y)
+    # print(m.chess_cnt)
     return m
 
 
