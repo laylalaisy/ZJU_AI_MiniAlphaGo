@@ -10,10 +10,10 @@ class Board:
             self.matrix.append([])
             for j in range(col):
                 self.matrix[i].append(None)
-        self.matrix[3][3] = black
-        self.matrix[4][4] = black
-        self.matrix[3][4] = white
-        self.matrix[4][3] = white
+        self.matrix[3][3] = white
+        self.matrix[4][4] = white
+        self.matrix[3][4] = black
+        self.matrix[4][3] = black
         # print(self.matrix)
 
     def has_empty_box(self):

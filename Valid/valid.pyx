@@ -2,12 +2,7 @@ from Model.board import Board
 from utils.config import *
 from copy import deepcopy
 
-from Model.board import Board
-from utils.config import *
-from copy import deepcopy
-
-
-def is_valid(matrix, x, y, color):
+def is_valid(list matrix, int x, int y, int color):
     if matrix[x][y] is not None:
         return False
     # right
@@ -69,18 +64,16 @@ def is_valid(matrix, x, y, color):
 
     return False
 
-
-def get_valid_list(matrix, color):
-    valid_list = []
+def get_valid_list(list matrix, int color):
+    cdef list valid_list = []
     for i in range(col):
         for j in range(row):
             if is_valid(matrix, i, j, color):
                 valid_list.append((i, j))
     return valid_list
 
-
-# def move(Board board, x, y, player, bool copy=False):
-#     Board m
+# def move(Board board, int x, int y, int player, bool copy=False):
+#     cdef Board m
 #     if copy:
 #         m = deepcopy(board)
 #     else:
@@ -93,16 +86,16 @@ def get_valid_list(matrix, color):
 #     return m
 
 
-def eat(matrix, x, y):
-    color = matrix[x][y]
+def eat(list matrix, int x, int y):
+    cdef int color = matrix[x][y]
     # right
     if x < col - 2 and matrix[x + 1][y] == 1 - color:
         for i in range(x + 2, col):
             if matrix[i][y] == color:
                 for j in range(x, i):
                     matrix[j][y] = color
-                # if matrix[i][y] is None:
-                #     break
+                break
+            if matrix[i][y] is None:
                 break
     # left direct
     if x > 1 and matrix[x - 1][y] == 1 - color:
@@ -110,8 +103,8 @@ def eat(matrix, x, y):
             if matrix[i][y] == color:
                 for j in range(i, x):
                     matrix[j][y] = color
-                # if matrix[i][y] is None:
-                #     break
+                break
+            if matrix[i][y] is None:
                 break
     # down direct
     if y < 6 and matrix[x][y + 1] == 1 - color:
@@ -119,8 +112,8 @@ def eat(matrix, x, y):
             if matrix[x][i] == color:
                 for j in range(y, i):
                     matrix[x][j] = color
-                # if matrix[x][i] is None:
-                #     break
+                break
+            if matrix[x][i] is None:
                 break
     # up direct
     if y > 1 and matrix[x][y - 1] == 1 - color:
@@ -128,8 +121,8 @@ def eat(matrix, x, y):
             if matrix[x][i] == color:
                 for j in range(i, y):
                     matrix[x][j] = color
-                # if matrix[x][i] is None:
-                #     break
+                break
+            if matrix[x][i] is None:
                 break
     # down right
     if x < col - 2 and y < row - 2 and matrix[x + 1][y + 1] == 1 - color:
@@ -137,8 +130,8 @@ def eat(matrix, x, y):
             if matrix[x + i][y + i] == color:
                 for j in range(i):
                     matrix[x + j][y + j] = color
-                # if matrix[x + i][y + i] is None:
-                #     break
+                break
+            if matrix[x + i][y + i] is None:
                 break
     # down left
     if x > 1 and y < row - 2 and matrix[x - 1][y + 1] == 1 - color:
@@ -146,8 +139,8 @@ def eat(matrix, x, y):
             if matrix[x - i][y + i] == color:
                 for j in range(i):
                     matrix[x - j][y + j] = color
-                # if matrix[x - i][y + i] is None:
-                #     break
+                break
+            if matrix[x - i][y + i] is None:
                 break
     # up right
     if x < col - 2 and y > 1 and matrix[x + 1][y - 1] == 1 - color:
@@ -155,8 +148,8 @@ def eat(matrix, x, y):
             if matrix[x + i][y - i] == color:
                 for j in range(i):
                     matrix[x + j][y - j] = color
-                # if matrix[x + i][y - i] is None:
-                #     break
+                break
+            if matrix[x + i][y - i] is None:
                 break
     # up left
     if x > 1 and y > 1 and matrix[x - 1][y - 1] == 1 - color:
@@ -164,13 +157,12 @@ def eat(matrix, x, y):
             if matrix[x - i][y - i] == color:
                 for j in range(i):
                     matrix[x - j][y - j] = color
-                # if matrix[x - i][y - i] is None:
-                #     break
+                break
+            if matrix[x - i][y - i] is None:
                 break
     pass
 
-
-def get_priority_valid_moves(array, priority_table, player=1):
+def get_priority_valid_moves(list array, list priority_table, int player=1):
     """
     get the valid moves of the same priority.
     :param array: 8x8 matrix
@@ -178,7 +170,7 @@ def get_priority_valid_moves(array, priority_table, player=1):
     :param player: 默认为计算机
     :return: valid list
     """
-    valid_moves = []
+    cdef list valid_moves = []
     for priority in priority_table:
         for (x, y) in priority:
             if is_valid(array, x, y, player):
@@ -186,16 +178,3 @@ def get_priority_valid_moves(array, priority_table, player=1):
         if len(valid_moves) > 0:
             break
     return valid_moves
-
-
-if __name__ == '__main__':
-    matrix = []
-    for i in range(8):
-        matrix.append([])
-        for j in range(8):
-            matrix[i].append(None)
-    matrix[0][2] = matrix[0][3] = matrix[0][4] = matrix[0][6] = 0
-    matrix[0][5] = matrix[0][7] = 1
-    matrix[0][1] = 1
-    eat(matrix, 0, 1)
-    print(matrix)
