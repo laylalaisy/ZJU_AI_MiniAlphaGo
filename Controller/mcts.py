@@ -3,10 +3,11 @@ from datetime import *
 from multiprocessing.dummy import Pool as ThreadPool
 from random import choice
 from Controller.node import Node
+import globals
 
 from math import log, sqrt, fabs
 
-from globals import roxanne_table
+from globals import roxanne_table, AI_color
 from utils.util import dumb_score, move
 
 
@@ -163,6 +164,7 @@ class MCSearchTree:
             num_moves += 1
             # num_of_win += dumb_score(state, self.board.player) > 0
         # 走64步，看看64步之后谁的棋子更多？
+        # print(globals.AI_color)
         return dumb_score(state.matrix, self.player) > 0
 
     def backup(self, node, reward):
