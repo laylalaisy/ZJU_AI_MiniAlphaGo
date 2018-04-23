@@ -205,8 +205,8 @@ class MCSearchTree:
         :return: count
         """
         count = 0
-        # self.time_limit = timedelta(seconds=62 - fabs(34 - self.moves) * 2)
-        self.time_limit = timedelta(seconds=3)
+        self.time_limit = timedelta(seconds=62 - fabs(34 - self.moves) * 2)
+        # self.time_limit = timedelta(seconds=3)
         while datetime.utcnow() - self.start_time < self.time_limit:
             v = self.tree_policy(node)
             reward = self.default_policy(v)
