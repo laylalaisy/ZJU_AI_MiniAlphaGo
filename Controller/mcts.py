@@ -10,14 +10,10 @@ from math import log, sqrt, fabs
 from globals import roxanne_table, AI_color
 from utils.util import dumb_score, move
 
-
-
 from Valid import valid
+
+
 # from utils import valid
-
-
-
-
 
 
 # TODO: complete this class!
@@ -39,13 +35,34 @@ class MCSearchTree:
         self.moves = 4  # 这个棋盘上已经有了多少个子
         self.priority_table = deepcopy(roxanne_table)
 
-    def update(self, board, player,pre_move):
+    def update(self, board, player, pre_move, force_add=False):
         """
         append board to history
+        :param force_add:
+        :param pre_move:
+        :param player:
         :param board: GUI.Board
         :return:
         """
-        self.root = Node(board, player, self.root,pre_move)
+        # self.root = Node(board, player, self.root, pre_move)
+        already_has_same_child = False
+        for child in self.root.children:
+            if child.pre_move == pre_move:
+                print('already has same child!')
+                if not force_add:
+                    self.root = child
+                else:
+                    self.root.children.remove(child)
+                    child = Node(board, player, self.root, pre_move)
+                    self.root.children.append(child)
+                    self.root = child
+                already_has_same_child = True
+                break
+        if not already_has_same_child:
+            child = Node(board, player, self.root, pre_move)
+            self.root.children.append(child)
+            self.root = child
+        self.root.valid_list = valid.get_valid_list(self.root.board.matrix, player)
         self.depth = 0  # ???
         self.default_time = timedelta(seconds=0)  # ???
         self.moves = 0
@@ -55,13 +72,10 @@ class MCSearchTree:
                     self.moves += 1
 
     def uct_search(self):
-        # print('root', self.root)
-        # 现在的方法是简单的取第一个能放子的地方
-        # return self.root.valid_list[0]
         """!!!
-                uct search.
-                :return: a exec_move [x, y] maximizing winning percentage
-                """
+        uct search.
+        :return: a exec_move [x, y] maximizing winning percentage
+        """
         # tree depth
         self.depth = 0
         # count of simulation
@@ -192,6 +206,7 @@ class MCSearchTree:
         """
         count = 0
         self.time_limit = timedelta(seconds=62 - fabs(34 - self.moves) * 2)
+        # self.time_limit = timedelta(seconds=3)
         while datetime.utcnow() - self.start_time < self.time_limit:
             v = self.tree_policy(node)
             reward = self.default_policy(v)

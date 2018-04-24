@@ -78,7 +78,12 @@ class Controller:
         valid_list = valid.get_valid_list(self.board.matrix, globals.AI_color)
         (x, y) = (None, None)
         if len(valid_list) != 0:
-            (x, y) = self.tree.uct_search()
+            try:
+                (x, y) = self.tree.uct_search()
+                print('AI: ', x, y)
+            except Exception:
+                print(self.tree.root)
+                print()
             # self.write(globals.file_name, self.tree)
             move(self.board, x, y, globals.AI_color)
         else:
@@ -90,7 +95,7 @@ class Controller:
         self.notify()
         if len(self.board.valid_matrix) == 0:
             print("player pass!")
-            self.tree.update(self.board, globals.AI_color, (x, y))
+            self.tree.update(self.board, globals.AI_color, (x, y), force_add=True)
             self.AI_play()
         else:
             # globals.state = State.player

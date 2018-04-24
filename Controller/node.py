@@ -1,8 +1,9 @@
 from Model.board import Board
 from utils.util import move
 
-
 from Valid import valid
+
+
 # from utils import valid
 
 class Node:
@@ -23,7 +24,7 @@ class Node:
     def add_child(self, step):
         # print('self:', self)
         new_board = move(self.board, step[0], step[1], self.player, copy=True)
-        self.children.append(Node(new_board, 1 - self.player, self,step))
+        self.children.append(Node(new_board, 1 - self.player, self, step))
         # print('children len: ', len(self.children))
         self.un_tried_list.remove(step)
 
@@ -34,3 +35,9 @@ class Node:
     def is_terminal(self):
         # print('len(self.children):' + str(len(self.children)))
         return len(self.un_tried_list) == 0 and len(self.children) == 0
+
+    def __str__(self):
+        return str(self.player) + ' is going to play!\n' + \
+               'board: ' + str(self.board) + '\n' + \
+               'valid_list: ' + str(self.valid_list) + '\n' + \
+               '#children: ' + str(len(self.children)) + '\n'
