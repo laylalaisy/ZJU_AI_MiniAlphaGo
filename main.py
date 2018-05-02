@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-# created by avartialu@gmail.com on 2017/4/8
 from tkinter import *
 from game import start_game
 

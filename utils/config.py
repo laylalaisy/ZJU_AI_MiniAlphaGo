@@ -19,3 +19,4 @@ board_outline_color = "#111"
 screen_width = 500
 screen_height = 600
 time_limit = 60
+single_time_limit = 3

@@ -14,7 +14,6 @@ class Board:
         self.matrix[4][4] = white
         self.matrix[3][4] = black
         self.matrix[4][3] = black
-        # print(self.matrix)
 
     def has_empty_box(self):
         for i in range(row):
