@@ -1,6 +1,4 @@
-from Model.board import Board
 from utils.config import *
-from copy import deepcopy
 
 def is_valid(list matrix, int x, int y, int color):
     if matrix[x][y] is not None:
@@ -71,19 +69,6 @@ def get_valid_list(list matrix, int color):
             if is_valid(matrix, i, j, color):
                 valid_list.append((i, j))
     return valid_list
-
-# def move(Board board, int x, int y, int player, bool copy=False):
-#     cdef Board m
-#     if copy:
-#         m = deepcopy(board)
-#     else:
-#         m = board
-#     m.matrix[x][y] = player
-#     m.chess_cnt = m.chess_cnt + 1
-#     # 吃掉对方的子
-#     eat(m.matrix, x, y)
-#     # print(m.chess_cnt)
-#     return m
 
 
 def eat(list matrix, int x, int y):
@@ -163,13 +148,6 @@ def eat(list matrix, int x, int y):
     pass
 
 def get_priority_valid_moves(list array, list priority_table, int player=1):
-    """
-    get the valid moves of the same priority.
-    :param array: 8x8 matrix
-    :param priority_table: 优先表
-    :param player: 默认为计算机
-    :return: valid list
-    """
     cdef list valid_moves = []
     for priority in priority_table:
         for (x, y) in priority:

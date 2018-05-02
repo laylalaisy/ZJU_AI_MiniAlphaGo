@@ -7,8 +7,6 @@ class BoardCanvas(Canvas):
         super().__init__(master, cnf, **kw)
 
     def repaint(self, model):
-        # print(model.matrix)
-        # pass
         self.create_rectangle(board_left_up_x, board_left_up_y, board_right_down_x,
                               board_right_down_y, fill=board_bg_color,
                               outline=board_outline_color)
@@ -24,7 +22,6 @@ class BoardCanvas(Canvas):
             self.create_line(line_shift, board_left_up_y, line_shift, board_right_down_y, fill=line_color)
 
         # draw circles
-        # print(model.matrix)
         for i in range(row):
             for j in range(col):
                 if model.matrix[i][j] is not None:
@@ -32,7 +29,6 @@ class BoardCanvas(Canvas):
                                 chess_radius, model.matrix[i][j])
 
         for point in model.valid_matrix:
-            # print(point)
             self.circle(left_up_chess_x + board_box_width * point[0], left_up_chess_y + board_box_height * point[1],
                         prompt_radius, prompt_color)
 

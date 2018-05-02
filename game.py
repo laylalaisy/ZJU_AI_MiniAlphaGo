@@ -11,7 +11,6 @@ from Valid import valid
 
 
 def handler_adaptor(fun, **kwds):
-    '''''事件处理函数的适配器，相当于中介，那个event是从那里来的呢，我也纳闷，这也许就是python的伟大之处吧'''
     return lambda event, fun=fun, kwds=kwds: fun(event, **kwds)
 
 
@@ -36,18 +35,14 @@ def init_game(controller, player, screen):
     if player is 0:
         globals.state = State.player
         bo.valid_matrix = valid.get_valid_list(bo.matrix, black)
-        # bo.player_timer.start()
     else:
         globals.state = State.AI
-        # globals.file_name = 'AI_first'
         print(globals.file_name)
         globals.player_color = white
         globals.AI_color = black
         bo.valid_matrix.clear()
         controller.AI_play()
     screen.delete(ALL)
-    screen.create_arc(5, 5, 45, 45, fill="#000111", width="4", style="arc", outline="white", extent=300)
-    screen.create_polygon(33, 38, 36, 45, 40, 39, fill="white", outline="white")
     screen.bind("<Button-1>", handler_adaptor(on_canvas_click, controller=controller))
     screen.pack()
     screen.repaint(bo)
