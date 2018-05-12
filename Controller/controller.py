@@ -70,10 +70,11 @@ class Controller:
                 (x, y) = self.tree.uct_search()
                 single_step_end = time.time()
                 self.total_time += single_step_end - single_step_begin
+                print('Time used: ', single_step_end - single_step_begin)
                 print('AI: ', y + 1, x + 1)
             except Exception:
                 print(self.tree.root)
-                print()
+                # print()
             move(self.board, x, y, globals.AI_color)
         else:
             print("valid_list is empty! AI pass")
